@@ -1,17 +1,9 @@
-import { useEffect } from 'react'
-import DocComparePage from './components/DocComparePage'
-import './App.css'
+import HelloPage from './pages/HelloPage'
 
-function App() {
-  useEffect(() => {
-    document.title = '文档比较工具Diff'
-  }, [])
-
+export default function App() {
   return (
-    <div className="App">
-      <DocComparePage />
+    <div>
+      <HelloPage />
     </div>
   )
 }
-
-export default App
