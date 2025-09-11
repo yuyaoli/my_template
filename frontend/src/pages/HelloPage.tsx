@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Button, Text } from '@chakra-ui/react';
-import { HelloService } from '../client';
-import type { HelloApiV1HelloGetResponse } from '../client';
+import { helloApiV1HelloGet } from '../client/sdk.gen';
+import type { HelloApiV1HelloGetResponses } from '../client/types.gen';
 
 export default function HelloPage() {
-  const [response, setResponse] = useState<HelloApiV1HelloGetResponse | null>(null);
+  const [response, setResponse] = useState<HelloApiV1HelloGetResponses[200] | null>(null);
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
@@ -12,9 +12,8 @@ export default function HelloPage() {
     try {
       setLoading(true);
       setErr(null);
-      const result = await HelloService.apiV1HelloGet();
-      // 如果你的生成器返回的是 { data: ... } 结构，请改成：setResponse(result.data)
-      setResponse(result);
+      const result = await helloApiV1HelloGet();
+      setResponse(result.data ?? null);
     } catch (error: any) {
       console.error('API 调用失败:', error);
       setErr(error?.message ?? '请求失败');
