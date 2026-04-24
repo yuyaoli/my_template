@@ -5,6 +5,6 @@ make dev
 ## deploy
 docker compose up --build
 
-## export openapi.json
+## gen client
 cd backend
-uv run python -m scripts.export_openapi
+make gen-client
