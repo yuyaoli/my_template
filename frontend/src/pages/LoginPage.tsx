@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useMutation } from "@tanstack/react-query"
 import { LogIn } from "lucide-react"
 
+import { useAuthStore } from "@/store/auth-store"
 import { createTokenApiV1TokensPostMutation } from "@/client/@tanstack/react-query.gen"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
@@ -13,14 +14,11 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-type LoginPageProps = {
-  onLogin: (token: string) => void
-}
-
-export default function LoginPage({ onLogin }: LoginPageProps) {
+export default function LoginPage() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const login = useAuthStore((state) => state.login)
 
   const loginMutation = useMutation({
     ...createTokenApiV1TokensPostMutation(),
@@ -31,7 +29,7 @@ export default function LoginPage({ onLogin }: LoginPageProps) {
       }
 
       setErrorMessage(null)
-      onLogin(data.access_token)
+      login(data.access_token)
     },
     onError: (error) => {
       console.error("登录失败:", error)

@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { LogOut, UserRound } from "lucide-react"
 
+import { useAuthStore } from "@/store/auth-store"
 import { readMeApiV1MeGetOptions } from "@/client/@tanstack/react-query.gen"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
@@ -12,24 +13,18 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 
-type HomePageProps = {
-  token: string
-  onLogout: () => void
-}
-
-export default function HomePage({ token, onLogout }: HomePageProps) {
+export default function HomePage() {
   const queryClient = useQueryClient()
+  const logout = useAuthStore((state) => state.logout)
 
   const meQuery = useQuery({
-    ...readMeApiV1MeGetOptions({
-      auth: token,
-    }),
+    ...readMeApiV1MeGetOptions(),
   })
 
   const handleLogout = async () => {
     await queryClient.cancelQueries()
     queryClient.clear()
-    onLogout()
+    logout()
   }
 
   return (
